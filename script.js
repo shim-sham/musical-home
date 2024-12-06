@@ -1,7 +1,7 @@
-const synth = new Tone.Synth().toDestination();
+const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // Tone.Synth = monophonic. PolySynth(Tone.Synth) = lots of tone.synth's = chords
 const keysPressed = {};
 
-const keyNotePairs = [
+const keyToNote = [
   ["a", "C4"],
   ["w", "C#4"],
   ["s", "D4"],
@@ -23,30 +23,34 @@ const keyNotePairs = [
 
 const playNote = (key, note) => {
   if (!keysPressed[key]){
-    synth.triggerAttack(note);
+    synth.triggerAttack(note); // play note!
     keysPressed[key] = true;
-    document.querySelector(`[data-key="${key}"]`).classList.add("active");
+    const keyElement = document.querySelector(`[data-key="${key}"]`); // querySelector searches html for data-key with given value
+    keyElement.classList.add("active"); // adds active to class e.g. "key white active"
   }
 }
 
-const stopNote = (key) => {
-  synth.triggerRelease(); 
-  keysPressed[key] = false; 
-  document.querySelector(`[data-key="${key}"]`).classList.remove("active");
+const stopNote = (key, note) => {
+  if (keysPressed[key]) {
+    synth.triggerRelease(note);
+    keysPressed[key] = false; 
+    const keyElement = document.querySelector(`[data-key="${key}"]`);
+    keyElement.classList.remove("active"); 
+  }
 };
 
 document.addEventListener("keydown", (e) => {
-  keyNotePairs.forEach(([key, note]) => {
-    if (e.key === key) {
+  keyToNote.forEach(([key, note]) => { // goes through each list in array. sets first element as key, second as note
+    if (e.key === key) { // e.key is keyboard key pressed from "keydown".
       playNote(key, note);
     }
   });
 });
 
 document.addEventListener("keyup", (e) => {
-  keyNotePairs.forEach(([key]) => {
+  keyToNote.forEach(([key,note]) => {
     if (e.key === key) {
-      stopNote(key);
+      stopNote(key,note);
     }
   });
 });
