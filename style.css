@@ -1,10 +1,11 @@
 body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background: #ffdccb;
-  font-family:Verdana
+  font-family:Verdana;
 }
 
 .piano-keys { /* DONT CHANGE LAYOUT; IT TOOK YOU AGES TO FIX IT */
