@@ -1,6 +1,6 @@
 const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // Tone.Synth = monophonic. PolySynth(Tone.Synth) = lots of tone.synth's = chords
 const keysPressed = {};
-
+const noteOutput = document.getElementById("note-output")
 const keyToNote = [
   ["a", "C4"],
   ["w", "C#4"],
@@ -34,7 +34,7 @@ const stopNote = (key, note) => {
   if (keysPressed[key]) {
     synth.triggerRelease(note);
     keysPressed[key] = false; 
-    const keyElement = document.querySelector(`[data-key="${key}"]`);
+    const keyElement = document.querySelector(`[data-key="${key}"]`); // need backticks for ${variable}
     keyElement.classList.remove("active"); 
   }
 };
@@ -42,6 +42,7 @@ const stopNote = (key, note) => {
 document.addEventListener("keydown", (e) => {
   keyToNote.forEach(([key, note]) => { // goes through each list in array. sets first element as key, second as note
     if (e.key === key) { // e.key is keyboard key pressed from "keydown".
+      if (!keysPressed[key]) noteOutput.textContent += ` ${note}`; // remember backticks!
       playNote(key, note);
     }
   });

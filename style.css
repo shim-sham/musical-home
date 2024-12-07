@@ -29,7 +29,7 @@ body {
     height: 230px;
     width: 70px;
     border-radius: 8px;
-    border: 1px solid black;
+    border: 0.5px solid black;
     background: white;
   }
 .piano-keys .black.active {
