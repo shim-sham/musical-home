@@ -1,6 +1,7 @@
 const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // Tone.Synth = monophonic. PolySynth(Tone.Synth) = lots of tone.synth's = chords
 const keysPressed = {};
 const noteOutput = document.getElementById("note-output")
+const chordOutput = document.getElementById("chord-output");
 const keyToNote = [
   ["a", "C4"],
   ["w", "C#4"],
@@ -20,6 +21,7 @@ const keyToNote = [
   ["p", "D#5"],
   [";", "E5"]
 ];
+let activeNotes = [];
 
 const playNote = (key, note) => {
   if (!keysPressed[key]){
@@ -27,15 +29,26 @@ const playNote = (key, note) => {
     keysPressed[key] = true;
     const keyElement = document.querySelector(`[data-key="${key}"]`); // querySelector searches html for data-key with given value
     keyElement.classList.add("active"); // adds active to class e.g. "key white active"
+    activeNotes.push(note);
+    chordFinder();
   }
 }
 
-const stopNote = (key, note) => {
+const releaseNote = (key, note) => {
   if (keysPressed[key]) {
     synth.triggerRelease(note);
     keysPressed[key] = false; 
     const keyElement = document.querySelector(`[data-key="${key}"]`); // need backticks for ${variable}
     keyElement.classList.remove("active"); 
+    activeNotes = activeNotes.filter((n) => n !== note);
+    chordFinder();
+  }
+};
+
+const chordFinder = () => {
+  const detectedChords = Tonal.Chord.detect(activeNotes);
+  if (detectedChords.length > 0) {
+    chordOutput.textContent = `Chord: ${detectedChords.join(", ")}`;
   }
 };
 
@@ -51,7 +64,7 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("keyup", (e) => {
   keyToNote.forEach(([key,note]) => {
     if (e.key === key) {
-      stopNote(key,note);
+      releaseNote(key,note);
     }
   });
 });
