@@ -4,10 +4,22 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #ffdccb;
+  background: #d7e6c7;
   font-family:Verdana;
 }
+.key.highlight {
+  border: 2px solid gold; /* Golden border */
+}
 
+
+#key-selector {
+  margin: 10px;
+  background-color: #004e42;
+  color:rgb(240, 254, 255);
+  padding: 5px;
+  font-size: 1rem;
+}
+ 
 .piano-keys { /* DONT CHANGE LAYOUT; IT TOOK YOU AGES TO FIX IT */
   display: flex;
   list-style: none;
@@ -23,7 +35,7 @@ body {
   width: 44px;
   margin: 0 -22px 0 -22px;
   border-radius: 0 0 5px 5px;
-  background:black ;
+  background:rgb(52, 52, 52) ;
 }
 .piano-keys .white {
     height: 230px;
@@ -33,8 +45,7 @@ body {
     background: white;
   }
 .piano-keys .black.active {
-  box-shadow: inset -5px -10px 10px rgba(223, 223, 223, 0.288);
-  background: black;
+  background:rgb(0, 0, 0) ;
 }
 
 .piano-keys .white.active {
