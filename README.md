@@ -2,7 +2,7 @@
 a virtual piano that tracks the notes you've played and detects the chords they make! <br>
 i made this to make composing easier.<br>
 
-**no installation required!** visit [shim-sham.github.io/virtual-piano](https://shim-sham.github.io/virtual-piano).
+**no installation required!** visit [shim-sham.github.io/musical-home/](shim-sham.github.io/musical-home/).
 
 ## features ✨
 
