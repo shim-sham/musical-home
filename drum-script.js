@@ -43,14 +43,14 @@ document.addEventListener("keydown", event => {
         "n": "floor-tom"
     };
 
-    const boxId = keyMap[event.key.toLowerCase()];
+    const boxId = keyMap[event.key.toLowerCase()]; // to catch capslock or shift
     if (boxId) {
         const box = document.getElementById(boxId);
         if (box) {
-            const soundLink = soundMap[box.id]; 
+            const soundLink = soundMap[box.id];
             if (soundLink) {
-                play(soundLink);
-                box.classList.add('active');
+                play(soundLink); 
+                box.classList.add('active'); // for css
                 setTimeout(() => box.classList.remove('active'), 100);
             }
         }
