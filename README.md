@@ -1,10 +1,12 @@
-# virtual piano 🎹
-a virtual piano that tracks the notes you've played and detects the chords they make! <br>
-i made this to make composing easier.<br>
+# musical home!
+a home for musical tools.<br>
+i created this to make composing easier.<br>
 
 **no installation required!** visit [shim-sham.github.io/musical-home/](shim-sham.github.io/musical-home/).
+## virtual piano 🎹
+a virtual piano that tracks the notes you've played and detects the chords they make! <br>
 
-## features ✨
+### features ✨
 
 - **uses keyboard**: each key corresponds to a note on the piano
 - **note history**: displays the notes you play
