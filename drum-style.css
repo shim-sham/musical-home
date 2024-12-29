@@ -38,3 +38,8 @@ body {
     transform: scale(0.9);
     transition: all .2s;
 }
+
+.box.active {
+    transform: scale(0.9);
+    transition: all .2s;
+}
