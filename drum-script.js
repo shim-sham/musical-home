@@ -51,7 +51,7 @@ document.addEventListener("keydown", event => {
             if (soundLink) {
                 play(soundLink);
                 box.classList.add('active');
-                setTimeout(() => box.classList.remove('active'), 100); // Remove effect
+                setTimeout(() => box.classList.remove('active'), 100);
             }
         }
     }
