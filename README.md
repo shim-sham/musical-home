@@ -2,7 +2,7 @@
 a home for musical tools.<br>
 i created this to make composing easier.<br>
 
-**no installation required!** visit [shim-sham.github.io/musical-home/](shim-sham.github.io/musical-home/).
+**no installation required!** visit [shim-sham.github.io/musical-home/](https://shim-sham.github.io/musical-home/).
 
 ## virtual piano 🎹
 a virtual piano that tracks the notes you've played and detects the chords they make! <br>
