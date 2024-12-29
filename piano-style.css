@@ -4,13 +4,21 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #d7e6c7;
+  background-color: #d7e6c7;
   font-family:Verdana;
 }
 .key.highlight {
-  border: 2px solid gold; /* Golden border */
+  border: 2px solid gold;
 }
 
+a{
+  color: #004e42;
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration:wavy underline;
+
+}
 
 #key-selector {
   margin: 10px;
@@ -35,22 +43,22 @@ body {
   width: 44px;
   margin: 0 -22px 0 -22px;
   border-radius: 0 0 5px 5px;
-  background:rgb(52, 52, 52) ;
+  background-color:rgb(52, 52, 52) ;
 }
 .piano-keys .white {
     height: 230px;
     width: 70px;
     border-radius: 8px;
     border: 0.5px solid black;
-    background: white;
+    background-color: white;
   }
 .piano-keys .black.active {
-  background:rgb(0, 0, 0) ;
+  background-color:rgb(0, 0, 0) ;
 }
 
 .piano-keys .white.active {
   box-shadow: inset -5px 5px 20px rgba(0,0,0,0.2);
-  background: white;
+  background-color: white;
 }
 .piano-keys .key span {
   position: absolute;
