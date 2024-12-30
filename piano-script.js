@@ -60,8 +60,20 @@ document.addEventListener("keydown", (e) => {
       playNote(key, note);
       chordFinder();
     }
+    else if (e.key === 'r' || e.key === 'R'){
+      launchConfetti()
+    }
+
   });
 });
+
+function launchConfetti() {
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { x: Math.random(), y: Math.random() } // Randomize the position
+  });
+}
 
 document.addEventListener("keyup", (e) => {
   keyToNote.forEach(([key,note]) => {
