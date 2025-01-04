@@ -3,7 +3,7 @@ const keysPressed = {};
 const noteOutput = document.getElementById("note-output")
 const chordOutput = document.getElementById("chord-output");
 const keySelector = document.getElementById("key-selector");
-
+let noteHistory = [];
 const keyToNote = new Map([
   ["a", "C4"],
   ["w", "C#4"],
@@ -21,9 +21,20 @@ const keyToNote = new Map([
   ["o", "C#5"],
   ["l", "D5"],
   ["p", "D#5"],
-  [";", "E5"]
+  [";", "E5"],
+  ["'","F5"],
+  ["]","F#5"],
+  ["\\","G5"]
 ]);
 let activeNotes = [];
+
+const updateNoteHistory = (note) => {
+  noteHistory.push(note);
+  if (noteHistory.length > 25) {
+    noteHistory.shift();
+  }
+  noteOutput.textContent = `Note history: ${noteHistory.join(" ")}`;
+};
 
 const playNote = (key, note) => {
   if (!keysPressed[key]) {
@@ -35,7 +46,6 @@ const playNote = (key, note) => {
     chordFinder();
   }
 }
-
 
 const releaseNote = (key,note) => {
   if (keysPressed[key]) {
@@ -50,9 +60,12 @@ const chordFinder = () => {
   const detectedChords = Tonal.Chord.detect(activeNotes);
   if (detectedChords.length > 0) {
     chordOutput.textContent = `Chord: ${detectedChords.join(", ")}`;
+  }else{
+    chordOutput.textContent = "No chord detected"
   }
 };
 
+// presses
 function launchConfetti() {
   confetti({
     particleCount: 100,
@@ -62,68 +75,88 @@ function launchConfetti() {
 }
 
 document.addEventListener("keydown", (e) => {
-  keyToNote.forEach(([key, note]) => { // goes through each list in array. sets first element as key, second as note
-    if (e.key === key) { // e.key is keyboard key pressed from "keydown".
-      if (!keysPressed[key]) {
-        noteOutput.textContent += ` ${note}`; // remember backticks!
-      }
-      playNote(key, note);
-      chordFinder();
+  const note = keyToNote.get(e.key);
+  if (note) { 
+    if (!keysPressed[e.key]) {
+      updateNoteHistory(note);
+      playNote(e.key, note); 
     }
-    else if (e.key === 'r' || e.key === 'R'){
-      launchConfetti() //easter egg
-    }
-
-  });
+  } else if (e.key === 'r' || e.key === 'R') {
+    launchConfetti(); //easter egg
+  }
 });
-
-
 
 document.addEventListener("keyup", (e) => {
-  keyToNote.forEach(([key,note]) => {
-    if (e.key === key) {
-      releaseNote(key,note);
-      chordFinder();
-    }
-  });
+  const note = keyToNote.get(e.key); 
+  if (note) {
+    releaseNote(e.key, note); 
+  }
 });
 
-//click
+//clicks!
 document.querySelectorAll('.key').forEach(Key => {
-  Key.addEventListener('click', () => {
+// DESKTOP - mouse
+  Key.addEventListener('mousedown', () => {
     const key = Key.getAttribute("data-key");
-    const note = keyToNote.get(key); // Direct lookup using Map
+    const note = keyToNote.get(key);
     if (note) {
-      console.log(note); 
-      playNote(key,note); 
+      if (!keysPressed[key]) {
+        updateNoteHistory(note);
+        playNote(key, note); 
+      }
+    }
+  })
+
+  Key.addEventListener('mouseup', () => {
+    const key = Key.getAttribute("data-key");
+    const note = keyToNote.get(key);
+    if (note) {
+      releaseNote(key, note); 
+    }
+  });
+
+//MOBILE
+  Key.addEventListener('touchstart', (event) => {
+    event.preventDefault(); 
+    const key = Key.getAttribute("data-key");
+    const note = keyToNote.get(key);
+    if (!keysPressed[key]) {
+      updateNoteHistory(note);
+      playNote(key, note); 
+    }
+  });
+
+  Key.addEventListener('touchend', () => {
+    const key = Key.getAttribute("data-key");
+    const note = keyToNote.get(key);
+    if (note) {
+      releaseNote(key, note);
     }
   });
 });
 
+
+// scale indicator
 const getDiatonicNotes = (key) => {
-  const scale = Tonal.Scale.get(key); // Use Tonal.js to get the scale
-  return scale.notes; // Returns an array of notes in the scale, e.g., ["C", "D", "E", "F", "G", "A", "B"]
+  const scale = Tonal.Scale.get(key); 
+  return scale.notes; //list of notes
 };
 
-// Function to highlight diatonic keys
 const highlightDiatonicKeys = (key) => {
-  const diatonicNotes = getDiatonicNotes(key);
-
-  // Reset all keys
+  const diatonicNotes = getDiatonicNotes(key); 
   document.querySelectorAll(".key").forEach((keyElement) => {
-    keyElement.classList.remove("diatonic");
+    keyElement.classList.remove("diatonic"); //remove prev
   });
-
-  // Highlight diatonic keys
-  keyToNote.forEach(([keyboardKey, note]) => {
-    const pitch = Tonal.Note.get(note).pc; // Get the pitch class (e.g., "C" from "C4")
+  keyToNote.forEach((note, keyboardKey) => {
+    const pitch = Tonal.Note.get(note).pc; // just pitch class ("C" from "C4")
     if (diatonicNotes.includes(pitch)) {
       const keyElement = document.querySelector(`[data-key="${keyboardKey}"]`);
       if (keyElement) keyElement.classList.add("diatonic");
     }
   });
 };
+
 keySelector.addEventListener("change", (e) => {
-  const selectedKey = e.target.value;
+  const selectedKey = e.target.value; 
   highlightDiatonicKeys(selectedKey);
 });
