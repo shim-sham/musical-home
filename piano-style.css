@@ -4,9 +4,18 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  line-height: 1.5;
   background-color: #d7e6c7;
-  font-family:Verdana;
+  font-family: 'Epilogue', sans-serif;
 }
+@font-face {
+  font-family: 'Epilogue';
+  src: url('Epilogue/Epilogue-VariableFont_wght.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+
 .key.highlight {
   border: 2px solid gold;
 }
