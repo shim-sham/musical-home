@@ -14,9 +14,16 @@ body {
   font-weight: 300;
   font-style: normal;
 }
+#button-container{
+  justify-content: space-evenly;
+}
+button{
+  background-color: #004e42;
+  color:#d7e6c7;
+  font-size: 1rem;
 
-
-.key.highlight {
+}
+.piano-key.highlight {
   border: 2px solid gold;
 }
 
@@ -32,7 +39,7 @@ a:hover {
 #key-selector {
   margin: 10px;
   background-color: #004e42;
-  color:rgb(240, 254, 255);
+  color:#d7e6c7;
   padding: 5px;
   font-size: 1rem;
 }

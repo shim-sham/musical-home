@@ -1,8 +1,13 @@
 const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // Tone.Synth = monophonic. PolySynth(Tone.Synth) = lots of tone.synth's = chords
+const recorder = new Tone.Recorder();
+synth.connect(recorder);
 const keysPressed = {};
+
 const noteOutput = document.getElementById("note-output")
 const chordOutput = document.getElementById("chord-output");
 const keySelector = document.getElementById("key-selector");
+const recordButton = document.getElementById("record-button");
+
 let noteHistory = [];
 const keyToNote = new Map([
   ["a", "C4"],
@@ -27,7 +32,7 @@ const keyToNote = new Map([
   ["\\","G5"]
 ]);
 let activeNotes = [];
-
+let isRecording = false;
 const updateNoteHistory = (note) => {
   noteHistory.push(note);
   if (noteHistory.length > 25) {
@@ -159,4 +164,26 @@ const highlightDiatonicKeys = (key) => {
 keySelector.addEventListener("change", (e) => {
   const selectedKey = e.target.value; 
   highlightDiatonicKeys(selectedKey);
+});
+
+
+//RECORDING
+recordButton.addEventListener("click", async() =>{
+  if (!isRecording) {
+    await Tone.start();
+    recorder.start();
+    recordButton.textContent = "stop and export";
+    isRecording = true;
+  } else {
+    const recording = await recorder.stop();
+    const url = URL.createObjectURL(recording);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "piano-recording.wav";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    recordButton.textContent = "record!";
+    isRecording = false;
+  }
 });
